@@ -67,6 +67,24 @@ export function Maze() {
         .catch((err) => console.log(err))
     };
 
+    const generateMazeFill = (result) => {
+        setBoard(result.maze)
+    };
+
+    const generateMaze = () => {
+        fetch('http://localhost:8080/api/maze/generate/' + board.length, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': "*",
+                "Access-Control-Allow-Headers": "X-Requested-With"
+            }
+        })
+        .then((res) => res.json())
+        .then((result) => generateMazeFill(result))
+        .catch((err) => console.log(err))
+    };
+
 
     return (
         <div>
@@ -77,6 +95,7 @@ export function Maze() {
             <label>End(x, y)</label>
             <input id="end" onChange={changeEnd}/>
             <button onClick={submit}>Submit</button>
+            <button onClick={generateMaze}>Generate Barriers</button>
 
             <table style={{marginLeft: 'auto', marginRight: 'auto'}}>
                 {
